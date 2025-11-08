@@ -10,6 +10,7 @@ import {
   Wrench, 
   MessageSquare, 
   Users,
+  Link as LinkIcon,
   Settings
 } from "lucide-react";
 
@@ -18,6 +19,7 @@ const adminSections = [
   { id: "robots", title: "Каталог роботов", icon: Bot, path: "/admin/robots", color: "from-blue-600 to-blue-800" },
   { id: "faq", title: "FAQ", icon: HelpCircle, path: "/admin/faq", color: "from-cyan-500 to-blue-600" },
   { id: "diy", title: "DIY проекты", icon: Wrench, path: "/admin/diy", color: "from-amber-500 to-yellow-600" },
+  { id: "useful", title: "Полезные ссылки", icon: LinkIcon, path: "/admin/useful-links", color: "from-cyan-500 to-teal-600" },
   { id: "chat", title: "Управление чатом", icon: MessageSquare, path: "/admin/chat", color: "from-indigo-500 to-purple-600" },
   { id: "users", title: "Пользователи", icon: Users, path: "/admin/users", color: "from-green-500 to-emerald-600" },
   { id: "sources", title: "Источники новостей", icon: Settings, path: "/admin/sources", color: "from-slate-500 to-slate-700" },

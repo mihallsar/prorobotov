@@ -12,8 +12,10 @@ import Catalog from "@/pages/catalog";
 import FAQ from "@/pages/faq";
 import DIY from "@/pages/diy";
 import Meetup from "@/pages/meetup";
+import UsefulLinks from "@/pages/useful-links";
 import AdminDashboard from "@/pages/admin/index";
 import AdminNews from "@/pages/admin/news";
+import AdminUsefulLinks from "@/pages/admin/useful-links";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 export function App() {
@@ -31,9 +33,11 @@ export function App() {
         {/* Content routes */}
         <Route path="/news" element={<News />} />
         <Route path="/catalog" element={<Catalog />} />
+        <Route path="/robots" element={<Catalog />} />
         <Route path="/faq" element={<FAQ />} />
         <Route path="/diy" element={<DIY />} />
         <Route path="/meetup" element={<Meetup />} />
+        <Route path="/useful" element={<UsefulLinks />} />
 
         {/* Billing routes */}
         <Route
@@ -77,6 +81,14 @@ export function App() {
           element={
             <RequireAdmin>
               <AdminNews />
+            </RequireAdmin>
+          }
+        />
+        <Route
+          path="/admin/useful-links"
+          element={
+            <RequireAdmin>
+              <AdminUsefulLinks />
             </RequireAdmin>
           }
         />

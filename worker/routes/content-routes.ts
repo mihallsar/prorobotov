@@ -142,18 +142,34 @@ export const contentRoutes = new Hono<HonoContext>()
     const limit = c.req.query("limit");
     const category = c.req.query("category");
     
-    let query = db.select().from(usefulLinks).orderBy(usefulLinks.order, desc(usefulLinks.createdAt));
+    let links;
     
-    if (category) {
-      query = db.select().from(usefulLinks).where(eq(usefulLinks.category, category)).orderBy(usefulLinks.order, desc(usefulLinks.createdAt));
+    if (category && limit) {
+      links = await db.select()
+        .from(usefulLinks)
+        .where(eq(usefulLinks.category, category))
+        .orderBy(usefulLinks.order, desc(usefulLinks.createdAt))
+        .limit(parseInt(limit))
+        .all();
+    } else if (category) {
+      links = await db.select()
+        .from(usefulLinks)
+        .where(eq(usefulLinks.category, category))
+        .orderBy(usefulLinks.order, desc(usefulLinks.createdAt))
+        .all();
+    } else if (limit) {
+      links = await db.select()
+        .from(usefulLinks)
+        .orderBy(usefulLinks.order, desc(usefulLinks.createdAt))
+        .limit(parseInt(limit))
+        .all();
+    } else {
+      links = await db.select()
+        .from(usefulLinks)
+        .orderBy(usefulLinks.order, desc(usefulLinks.createdAt))
+        .all();
     }
     
-    if (limit) {
-      const links = await query.limit(parseInt(limit)).all();
-      return c.json(links);
-    }
-    
-    const links = await query.all();
     return c.json(links);
   })
   

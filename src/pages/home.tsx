@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Newspaper, Boxes, HelpCircle, Wrench, Users, ArrowRight } from "lucide-react";
+import { Newspaper, Boxes, HelpCircle, Wrench, Users, Link as LinkIcon, ArrowRight } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { apiClient } from "@/lib/api-client";
 
@@ -40,47 +40,122 @@ const sections = [
     color: "from-blue-700 to-indigo-800",
     path: "/meetup"
   },
+  { 
+    id: "useful", 
+    title: "Полезное", 
+    icon: LinkIcon,
+    color: "from-cyan-500 to-teal-600",
+    path: "/useful"
+  },
 ];
 
-const Gear = ({ size = 200, delay = 0, rotation = 0, top = "20%", left = "10%", opacity = 0.15 }) => (
-  <motion.div
-    className="absolute pointer-events-none"
-    style={{ 
-      top, 
-      left,
-      width: size,
-      height: size,
-    }}
-    animate={{ rotate: 360 }}
-    transition={{ 
-      duration: 20, 
-      repeat: Infinity, 
-      ease: "linear",
-      delay 
-    }}
-    initial={{ rotate: rotation }}
-  >
-    <svg viewBox="0 0 100 100" className="w-full h-full" style={{ opacity }}>
-      <defs>
-        <linearGradient id={`gearGrad${delay}`} x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style={{ stopColor: "#60a5fa", stopOpacity: 1 }} />
-          <stop offset="50%" style={{ stopColor: "#3b82f6", stopOpacity: 1 }} />
-          <stop offset="100%" style={{ stopColor: "#1e40af", stopOpacity: 1 }} />
-        </linearGradient>
-      </defs>
-      <path
-        d="M50,10 L54,18 L62,18 L56,24 L58,32 L50,28 L42,32 L44,24 L38,18 L46,18 Z
-           M50,68 L54,76 L62,76 L56,82 L58,90 L50,86 L42,90 L44,82 L38,76 L46,76 Z
-           M10,50 L18,54 L18,62 L24,56 L32,58 L28,50 L32,42 L24,44 L18,38 L18,46 Z
-           M68,50 L76,54 L76,62 L82,56 L90,58 L86,50 L90,42 L82,44 L76,38 L76,46 Z
-           M50,50 m-15,0 a15,15 0 1,0 30,0 a15,15 0 1,0 -30,0"
-        fill={`url(#gearGrad${delay})`}
-        stroke="#1e3a8a"
-        strokeWidth="1"
-      />
-    </svg>
-  </motion.div>
-);
+const Gear = ({ 
+  size = 200, 
+  teeth = 12, 
+  direction = 1, 
+  top = "20%", 
+  left = "10%", 
+  opacity = 0.15,
+  speed = 20 
+}: {
+  size?: number;
+  teeth?: number;
+  direction?: 1 | -1;
+  top?: string;
+  left?: string;
+  opacity?: number;
+  speed?: number;
+}) => {
+  const innerRadius = 35;
+  const outerRadius = 48;
+  
+  const gearPath = (() => {
+    let path = "";
+    for (let i = 0; i < teeth; i++) {
+      const angle1 = (i / teeth) * 2 * Math.PI;
+      const angle2 = ((i + 0.4) / teeth) * 2 * Math.PI;
+      const angle3 = ((i + 0.6) / teeth) * 2 * Math.PI;
+      const angle4 = ((i + 1) / teeth) * 2 * Math.PI;
+      
+      const x1 = 50 + innerRadius * Math.cos(angle1);
+      const y1 = 50 + innerRadius * Math.sin(angle1);
+      const x2 = 50 + outerRadius * Math.cos(angle2);
+      const y2 = 50 + outerRadius * Math.sin(angle2);
+      const x3 = 50 + outerRadius * Math.cos(angle3);
+      const y3 = 50 + outerRadius * Math.sin(angle3);
+      const x4 = 50 + innerRadius * Math.cos(angle4);
+      const y4 = 50 + innerRadius * Math.sin(angle4);
+      
+      if (i === 0) {
+        path += `M ${x1} ${y1} `;
+      }
+      path += `L ${x2} ${y2} L ${x3} ${y3} L ${x4} ${y4} `;
+    }
+    path += "Z";
+    return path;
+  })();
+
+  return (
+    <motion.div
+      className="absolute pointer-events-none"
+      style={{ 
+        top, 
+        left,
+        width: size,
+        height: size,
+      }}
+      animate={{ rotate: direction * 360 }}
+      transition={{ 
+        duration: speed, 
+        repeat: Infinity, 
+        ease: "linear"
+      }}
+      initial={{ rotate: 0 }}
+    >
+      <svg viewBox="0 0 100 100" className="w-full h-full" style={{ opacity }}>
+        <defs>
+          <linearGradient id={`gearGrad${top}${left}`} x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style={{ stopColor: "#60a5fa", stopOpacity: 1 }} />
+            <stop offset="50%" style={{ stopColor: "#3b82f6", stopOpacity: 1 }} />
+            <stop offset="100%" style={{ stopColor: "#1e40af", stopOpacity: 1 }} />
+          </linearGradient>
+          <radialGradient id={`gearShine${top}${left}`}>
+            <stop offset="0%" style={{ stopColor: "#ffffff", stopOpacity: 0.3 }} />
+            <stop offset="70%" style={{ stopColor: "#60a5fa", stopOpacity: 0 }} />
+          </radialGradient>
+        </defs>
+        <path
+          d={gearPath}
+          fill={`url(#gearGrad${top}${left})`}
+          stroke="#1e3a8a"
+          strokeWidth="0.5"
+        />
+        <circle
+          cx="50"
+          cy="50"
+          r={innerRadius}
+          fill={`url(#gearGrad${top}${left})`}
+          stroke="#1e3a8a"
+          strokeWidth="0.5"
+        />
+        <circle
+          cx="50"
+          cy="50"
+          r="8"
+          fill="#1e40af"
+          stroke="#60a5fa"
+          strokeWidth="1"
+        />
+        <circle
+          cx="50"
+          cy="50"
+          r={innerRadius * 0.7}
+          fill={`url(#gearShine${top}${left})`}
+        />
+      </svg>
+    </motion.div>
+  );
+};
 
 export default function Home() {
   const { data: latestNews } = useQuery({
@@ -113,12 +188,22 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 text-white overflow-hidden">
       <div className="absolute inset-0 overflow-hidden">
-        <Gear size={300} delay={0} rotation={0} top="5%" left="5%" />
-        <Gear size={250} delay={2} rotation={45} top="15%" left="75%" />
-        <Gear size={200} delay={4} rotation={90} top="60%" left="10%" />
-        <Gear size={280} delay={1} rotation={135} top="50%" left="70%" />
-        <Gear size={220} delay={3} rotation={180} top="80%" left="45%" />
-        <Gear size={180} delay={5} rotation={270} top="25%" left="40%" opacity={0.1} />
+        <Gear size={320} teeth={16} direction={1} top="2%" left="3%" speed={30} opacity={0.12} />
+        <Gear size={240} teeth={12} direction={-1} top="8%" left="18%" speed={40} opacity={0.15} />
+        <Gear size={280} teeth={14} direction={1} top="5%" left="72%" speed={35} opacity={0.13} />
+        <Gear size={200} teeth={10} direction={-1} top="12%" left="82%" speed={50} opacity={0.14} />
+        
+        <Gear size={260} teeth={13} direction={-1} top="55%" left="5%" speed={38} opacity={0.12} />
+        <Gear size={220} teeth={11} direction={1} top="63%" left="17%" speed={45} opacity={0.15} />
+        
+        <Gear size={300} teeth={15} direction={1} top="48%" left="68%" speed={32} opacity={0.11} />
+        <Gear size={200} teeth={10} direction={-1} top="58%" left="80%" speed={50} opacity={0.14} />
+        
+        <Gear size={240} teeth={12} direction={1} top="82%" left="25%" speed={40} opacity={0.13} />
+        <Gear size={180} teeth={9} direction={-1} top="88%" left="38%" speed={55} opacity={0.15} />
+        <Gear size={200} teeth={10} direction={1} top="85%" left="55%" speed={50} opacity={0.12} />
+        
+        <Gear size={220} teeth={11} direction={-1} top="28%" left="42%" speed={45} opacity={0.1} />
       </div>
 
       <nav className="relative z-10 flex items-center justify-between px-8 py-6">
