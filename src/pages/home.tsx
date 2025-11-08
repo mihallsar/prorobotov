@@ -238,7 +238,7 @@ export default function Home() {
         >
           <div className="relative inline-block">
             <h1 className="text-6xl font-bold mb-6">
-              <span className="rounded-[1.2em] font-black tracking-wider bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent" style={{ fontFamily: '"Nunito", "Quicksand", sans-serif', fontWeight: 900 }}>
+              <span className="rounded-[1.2em] font-black tracking-tight bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent" style={{ fontFamily: '"Nunito", "Quicksand", sans-serif', fontWeight: 900 }}>
                 PRO
               </span>
               <span className="bg-gradient-to-r from-blue-300 via-cyan-300 to-blue-400 bg-clip-text text-transparent">
