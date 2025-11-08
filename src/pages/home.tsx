@@ -238,62 +238,13 @@ export default function Home() {
         >
           <div className="relative inline-block">
             <h1 className="text-6xl font-bold mb-6">
-              <span className="rounded-[1.2em] font-black tracking-tight bg-gradient-to-r from-blue-300 via-cyan-300 to-blue-400 bg-clip-text text-transparent" style={{ fontFamily: '"Nunito", "Quicksand", sans-serif' }}>
+              <span className="rounded-[1.2em] font-black tracking-wider bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent" style={{ fontFamily: '"Nunito", "Quicksand", sans-serif', fontWeight: 900 }}>
                 PRO
               </span>
               <span className="bg-gradient-to-r from-blue-300 via-cyan-300 to-blue-400 bg-clip-text text-transparent">
                 роботов
               </span>
             </h1>
-            
-            <svg 
-              className="absolute pointer-events-none overflow-visible" 
-              viewBox="0 0 180 70"
-              preserveAspectRatio="none"
-              style={{ 
-                left: 0, 
-                top: 0, 
-                width: '180px',
-                height: '70px'
-              }}
-            >
-              <defs>
-                <filter id="brushStroke">
-                  <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" result="noise" />
-                  <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" xChannelSelector="R" yChannelSelector="G" />
-                </filter>
-              </defs>
-              
-              <path
-                d="M 170 0 L 10 70"
-                stroke="#fbbf24"
-                strokeWidth="36"
-                strokeLinecap="round"
-                fill="none"
-                filter="url(#brushStroke)"
-                opacity="0.85"
-              />
-              
-              <path
-                d="M 175 0 L 15 70"
-                stroke="#22c55e"
-                strokeWidth="33"
-                strokeLinecap="round"
-                fill="none"
-                filter="url(#brushStroke)"
-                opacity="0.8"
-              />
-              
-              <path
-                d="M 180 0 L 20 70"
-                stroke="#ef4444"
-                strokeWidth="30"
-                strokeLinecap="round"
-                fill="none"
-                filter="url(#brushStroke)"
-                opacity="0.75"
-              />
-            </svg>
           </div>
           
           <p className="text-2xl text-blue-200 font-light">
