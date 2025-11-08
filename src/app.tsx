@@ -7,6 +7,13 @@ import Dashboard from "@/pages/dashboard";
 import Home from "@/pages/home";
 import SignIn from "@/pages/sign-in";
 import SignUp from "@/pages/sign-up";
+import News from "@/pages/news";
+import Catalog from "@/pages/catalog";
+import FAQ from "@/pages/faq";
+import DIY from "@/pages/diy";
+import Meetup from "@/pages/meetup";
+import AdminDashboard from "@/pages/admin/index";
+import AdminNews from "@/pages/admin/news";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 export function App() {
@@ -16,8 +23,17 @@ export function App() {
         <Route path="/" element={<Home />} />
 
         {/* Authentication routes */}
+        <Route path="/sign-in" element={<SignIn />} />
         <Route path="/signin" element={<SignIn />} />
+        <Route path="/sign-up" element={<SignUp />} />
         <Route path="/signup" element={<SignUp />} />
+
+        {/* Content routes */}
+        <Route path="/news" element={<News />} />
+        <Route path="/catalog" element={<Catalog />} />
+        <Route path="/faq" element={<FAQ />} />
+        <Route path="/diy" element={<DIY />} />
+        <Route path="/meetup" element={<Meetup />} />
 
         {/* Billing routes */}
         <Route
@@ -50,6 +66,22 @@ export function App() {
         {/* Admin Dashboard */}
         <Route
           path="/admin"
+          element={
+            <RequireAdmin>
+              <AdminDashboard />
+            </RequireAdmin>
+          }
+        />
+        <Route
+          path="/admin/news"
+          element={
+            <RequireAdmin>
+              <AdminNews />
+            </RequireAdmin>
+          }
+        />
+        <Route
+          path="/dashboard"
           element={
             <RequireAdmin>
               <Dashboard />

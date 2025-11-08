@@ -55,7 +55,7 @@ export default function Dashboard() {
     enabled: !!usageUser?.id,
     queryFn: async () => {
       if (!usageUser) return null;
-      const res = await apiClient.admin.usage[":userId"].$get({ param: { userId: usageUser.id } });
+      const res = await (apiClient as any).admin.usage[":userId"].$get({ param: { userId: usageUser.id } });
       const json = await res.json();
       if (!res.ok) throw new Error("Failed to load usage");
       return json as { usage: { messages: number; apiCalls: number }; limits?: { messages?: number; apiCalls?: number } };
