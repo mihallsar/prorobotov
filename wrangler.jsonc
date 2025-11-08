@@ -23,8 +23,8 @@
   "d1_databases": [
     {
       "binding": "D1",
-      "database_name": "testing",
-      "database_id": "xyz",
+      "database_name": "prorobotov-production",
+      "database_id": "e400a9e3-a3ff-43b0-90e2-0805a31b96b1",
       "migrations_dir": "./drizzle"
     }
   ],
