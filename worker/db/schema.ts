@@ -69,3 +69,15 @@ export const newsSourcesConfig = sqliteTable("news_sources_config", {
   lastFetchedAt: integer("last_fetched_at", { mode: "timestamp" }),
   createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
 });
+
+export const usefulLinks = sqliteTable("useful_links", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  title: text("title").notNull(),
+  description: text("description").notNull(),
+  url: text("url").notNull(),
+  category: text("category").notNull(),
+  iconUrl: text("icon_url"),
+  order: integer("order").default(0),
+  createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).notNull(),
+});

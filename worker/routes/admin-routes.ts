@@ -3,7 +3,7 @@ import { Hono } from "hono";
 import { z } from "zod";
 import { authenticatedOnly, requireAdmin } from "../middleware/auth";
 import type { HonoContext } from "../types";
-import { newsArticles, robotCatalog, faqItems, diyProjects, chatMessages } from "../db/schema";
+import { newsArticles, robotCatalog, faqItems, diyProjects, chatMessages, usefulLinks } from "../db/schema";
 import { eq } from "drizzle-orm";
 
 export const adminRoutes = new Hono<HonoContext>()
@@ -219,6 +219,56 @@ export const adminRoutes = new Hono<HonoContext>()
     await db.update(chatMessages)
       .set({ isDeleted: true })
       .where(eq(chatMessages.id, parseInt(id)));
+    
+    return c.json({ success: true });
+  })
+  
+  .post("/useful-links", zValidator("json", z.object({
+    title: z.string().min(1),
+    description: z.string().min(1),
+    url: z.string().url(),
+    category: z.string().min(1),
+    iconUrl: z.string().optional(),
+    order: z.number().optional(),
+  })), async (c) => {
+    const db = c.get("db");
+    const data = c.req.valid("json");
+    
+    const link = await db.insert(usefulLinks).values({
+      ...data,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    }).returning().get();
+    
+    return c.json(link);
+  })
+  
+  .put("/useful-links/:id", zValidator("param", z.object({ id: z.string() })), zValidator("json", z.object({
+    title: z.string().min(1),
+    description: z.string().min(1),
+    url: z.string().url(),
+    category: z.string().min(1),
+    iconUrl: z.string().optional(),
+    order: z.number().optional(),
+  })), async (c) => {
+    const db = c.get("db");
+    const { id } = c.req.valid("param");
+    const data = c.req.valid("json");
+    
+    const link = await db.update(usefulLinks)
+      .set({ ...data, updatedAt: new Date() })
+      .where(eq(usefulLinks.id, parseInt(id)))
+      .returning()
+      .get();
+    
+    return c.json(link);
+  })
+  
+  .delete("/useful-links/:id", zValidator("param", z.object({ id: z.string() })), async (c) => {
+    const db = c.get("db");
+    const { id } = c.req.valid("param");
+    
+    await db.delete(usefulLinks).where(eq(usefulLinks.id, parseInt(id)));
     
     return c.json({ success: true });
   });
