@@ -97,7 +97,7 @@ export const contentRoutes = new Hono<HonoContext>()
     return c.json(project);
   })
   
-  .get("/chat/messages", authenticatedOnly, async (c) => {
+  .get("/chat/messages", async (c) => {
     const db = c.get("db");
     const messages = await db
       .select()

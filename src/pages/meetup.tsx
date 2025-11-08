@@ -55,35 +55,7 @@ export default function Meetup() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  if (!user) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 text-white flex items-center justify-center">
-        <div className="text-center">
-          <h2 className="text-3xl font-bold mb-4 text-blue-200">
-            Требуется регистрация
-          </h2>
-          <p className="text-blue-300 mb-6">
-            Чтобы участвовать в обсуждениях, необходимо войти в систему
-          </p>
-          <div className="flex gap-4 justify-center">
-            <Button
-              onClick={() => navigate("/sign-in")}
-              className="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600"
-            >
-              Войти
-            </Button>
-            <Button
-              onClick={() => navigate("/sign-up")}
-              variant="outline"
-              className="border-blue-400 text-blue-300 hover:bg-blue-900/20"
-            >
-              Регистрация
-            </Button>
-          </div>
-        </div>
-      </div>
-    );
-  }
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 text-white flex flex-col">
@@ -130,12 +102,12 @@ export default function Meetup() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   className={`flex ${
-                    msg.userId === user.id ? "justify-end" : "justify-start"
+                    user && msg.userId === user.id ? "justify-end" : "justify-start"
                   }`}
                 >
                   <div
                     className={`max-w-[70%] rounded-lg p-4 ${
-                      msg.userId === user.id
+                      user && msg.userId === user.id
                         ? "bg-gradient-to-r from-blue-600 to-cyan-600"
                         : "bg-white/10"
                     }`}
@@ -160,19 +132,46 @@ export default function Meetup() {
         </div>
 
         <form onSubmit={handleSend} className="flex gap-3">
-          <Input
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            placeholder="Напишите сообщение..."
-            className="flex-1 bg-white/5 border-white/10 text-white placeholder:text-blue-400"
-          />
-          <Button
-            type="submit"
-            disabled={!message.trim() || sendMessageMutation.isPending}
-            className="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600"
-          >
-            <Send className="w-4 h-4" />
-          </Button>
+          {user ? (
+            <>
+              <Input
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                placeholder="Напишите сообщение..."
+                className="flex-1 bg-white/5 border-white/10 text-white placeholder:text-blue-400"
+              />
+              <Button
+                type="submit"
+                disabled={!message.trim() || sendMessageMutation.isPending}
+                className="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600"
+              >
+                <Send className="w-4 h-4" />
+              </Button>
+            </>
+          ) : (
+            <div className="flex-1 flex items-center justify-center gap-4 py-4 px-6 rounded-xl backdrop-blur-sm bg-white/5 border border-white/10">
+              <p className="text-blue-300">
+                Чтобы отправить сообщение, необходимо войти
+              </p>
+              <div className="flex gap-2">
+                <Button
+                  type="button"
+                  onClick={() => navigate("/sign-in")}
+                  className="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600"
+                >
+                  Войти
+                </Button>
+                <Button
+                  type="button"
+                  onClick={() => navigate("/sign-up")}
+                  variant="outline"
+                  className="border-blue-400 text-blue-300 hover:bg-blue-900/20"
+                >
+                  Регистрация
+                </Button>
+              </div>
+            </div>
+          )}
         </form>
       </div>
     </div>
