@@ -247,10 +247,15 @@ export default function Home() {
             </h1>
             
             <svg 
-              className="absolute inset-0 pointer-events-none w-full h-full overflow-visible" 
-              viewBox="0 0 300 100"
-              preserveAspectRatio="xMidYMid meet"
-              style={{ left: '50%', transform: 'translateX(-50%)', top: '-10px' }}
+              className="absolute pointer-events-none overflow-visible" 
+              viewBox="0 0 180 70"
+              preserveAspectRatio="none"
+              style={{ 
+                left: 0, 
+                top: 0, 
+                width: '180px',
+                height: '70px'
+              }}
             >
               <defs>
                 <filter id="brushStroke">
@@ -260,9 +265,9 @@ export default function Home() {
               </defs>
               
               <path
-                d="M 180 8 L 60 48"
+                d="M 170 0 L 10 70"
                 stroke="#fbbf24"
-                strokeWidth="12"
+                strokeWidth="36"
                 strokeLinecap="round"
                 fill="none"
                 filter="url(#brushStroke)"
@@ -270,9 +275,9 @@ export default function Home() {
               />
               
               <path
-                d="M 190 10 L 70 50"
+                d="M 175 0 L 15 70"
                 stroke="#22c55e"
-                strokeWidth="11"
+                strokeWidth="33"
                 strokeLinecap="round"
                 fill="none"
                 filter="url(#brushStroke)"
@@ -280,9 +285,9 @@ export default function Home() {
               />
               
               <path
-                d="M 200 12 L 80 52"
+                d="M 180 0 L 20 70"
                 stroke="#ef4444"
-                strokeWidth="10"
+                strokeWidth="30"
                 strokeLinecap="round"
                 fill="none"
                 filter="url(#brushStroke)"
